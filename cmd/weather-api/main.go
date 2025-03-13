@@ -3,12 +3,17 @@ package main
 import (
 	"log"
 	"weather-api/internal/server"
+
+	"go.uber.org/zap"
 )
 
 func main() {
 	srv := server.NewServer()
-	err := srv.Start()
 
+	logger, _ := zap.NewProduction()
+	zap.ReplaceGlobals(logger)
+
+	err := srv.Start()
 	if err != nil {
 		log.Fatalln(err)
 	}
