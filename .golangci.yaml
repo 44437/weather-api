@@ -1,0 +1,31 @@
+linters:
+  enable:
+    - govet
+    - gocyclo
+    - gocritic
+    - goconst
+    - goimports
+    - gofmt
+    - gosimple
+    - prealloc
+    - revive
+    - staticcheck
+    - unconvert
+    - unused
+    - misspell
+    - nakedret
+
+linters-settings:
+  revive:
+    rules:
+      - name: exported
+        severity: warning
+
+issues:
+  exclude-rules:
+    - path: _test\.go
+      linters:
+        - errcheck
+  max-same-issues: 10
+  max-issues-per-linter: 50
+  new: true
