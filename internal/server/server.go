@@ -30,7 +30,7 @@ func NewServer() Server {
 	e.Use(middleware.Recover())
 	e.Use(middleware.CORS())
 
-	e.Server.Addr = fmt.Sprintf("%s:%d", "localhost", 8080)
+	e.Server.Addr = fmt.Sprintf(":%d", 8080)
 
 	server := &server{
 		echo: e,
