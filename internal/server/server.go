@@ -5,10 +5,15 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"os"
 	"time"
 
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
+)
+
+const(
+	envProd = "prod"
 )
 
 type Handler interface {
@@ -42,6 +47,10 @@ func NewServer() Server {
 
 func (s *server) addRoutes() {
 	s.echo.GET("/health", healthCheck)
+
+	if os.Getenv("APP_ENV") != envProd {
+		s.echo.GET("/debug/pprof/*", echo.WrapHandler(http.DefaultServeMux))
+	}
 }
 
 func healthCheck(c echo.Context) error {
