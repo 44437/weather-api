@@ -38,9 +38,6 @@ func NewServer(port int, handlers []Handler) Server {
 
 	e.Server.Addr = fmt.Sprintf(":%d", port)
 
-	e.Server.ReadTimeout = 1 * time.Second
-	e.Server.WriteTimeout = 7 * time.Second
-
 	server := &server{
 		echo: e,
 	}

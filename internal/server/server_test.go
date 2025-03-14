@@ -19,8 +19,6 @@ func TestNewServer(t *testing.T) {
 	assert.True(t, srv.GetEchoInstance().HideBanner)
 	assert.Equal(t, "GET", srv.GetEchoInstance().Routes()[0].Method)
 	assert.Equal(t, "GET", srv.GetEchoInstance().Routes()[1].Method)
-	assert.Equal(t, 1*time.Second, srv.GetEchoInstance().Server.ReadTimeout)
-	assert.Equal(t, 7*time.Second, srv.GetEchoInstance().Server.WriteTimeout)
 }
 
 func TestStartStop(t *testing.T) {
