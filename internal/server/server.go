@@ -12,7 +12,7 @@ import (
 	"github.com/labstack/echo/v4/middleware"
 )
 
-const(
+const (
 	envProd = "prod"
 )
 
@@ -21,6 +21,7 @@ type Handler interface {
 }
 
 type Server interface {
+	GetEchoInstance() *echo.Echo
 	Start() error
 	Stop()
 }
@@ -29,18 +30,25 @@ type server struct {
 	echo *echo.Echo
 }
 
-func NewServer() Server {
+func NewServer(port int, handlers []Handler) Server {
 	e := echo.New()
 	e.HideBanner = true
 	e.Use(middleware.Recover())
 	e.Use(middleware.CORS())
 
-	e.Server.Addr = fmt.Sprintf(":%d", 8080)
+	e.Server.Addr = fmt.Sprintf(":%d", port)
+
+	e.Server.ReadTimeout = 1 * time.Second
+	e.Server.WriteTimeout = 7 * time.Second
 
 	server := &server{
 		echo: e,
 	}
 	server.addRoutes()
+
+	for _, handler := range handlers {
+		handler.RegisterRoutes(server.echo)
+	}
 
 	return server
 }
@@ -51,6 +59,10 @@ func (s *server) addRoutes() {
 	if os.Getenv("APP_ENV") != envProd {
 		s.echo.GET("/debug/pprof/*", echo.WrapHandler(http.DefaultServeMux))
 	}
+}
+
+func (s *server) GetEchoInstance() *echo.Echo {
+	return s.echo
 }
 
 func healthCheck(c echo.Context) error {
@@ -67,6 +79,6 @@ func (s *server) Stop() {
 
 	err := s.echo.Server.Shutdown(ctx)
 	if err != nil {
-		log.Fatalf("server shutdown failed: %+s", err)
+		log.Printf("Server shutdown failed: %v", err)
 	}
 }
