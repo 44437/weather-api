@@ -4,8 +4,7 @@ DECLARE
     service_1_temp FLOAT;
     service_2_temp FLOAT;
 BEGIN
-  IF NEW.request_count = 4 THEN
-
+  IF NEW.request_count = 10 THEN
     SELECT service_1_temperature, service_2_temperature INTO service_1_temp, service_2_temp FROM get_temperatures(NEW.location);
 
     PERFORM notify_users(NEW.location, service_1_temp, service_2_temp);
