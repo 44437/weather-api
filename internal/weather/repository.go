@@ -8,7 +8,6 @@ import (
 	"os"
 	"os/signal"
 	"strconv"
-	"sync"
 	"syscall"
 	"time"
 
@@ -59,14 +58,8 @@ func (r *repository) GetWeatherByLocation(ctx context.Context, location string) 
 	return r.getWeatherByLocationFromDB(ctx, location)
 }
 
-var (
-	mutex sync.Mutex
-)
-
 func (r *repository) getWeatherByLocationFromDB(ctx context.Context, location string) (float32, error) {
-	mutex.Lock()
 	row := r.db.QueryRowContext(ctx, "SELECT id, location, service_1_temperature, service_2_temperature, request_count, created_at, first_request_uuid from weather_queries WHERE location = $1 LIMIT 1", location)
-	mutex.Unlock()
 
 	var weather model.DBWeather
 	var flag bool
@@ -104,8 +97,6 @@ func (r *repository) getWeatherByLocationFromDB(ctx context.Context, location st
 }
 
 func (r *repository) addWeather(ctx context.Context, location string) error {
-	mutex.Lock()
-	defer mutex.Unlock()
 	_, err := r.db.ExecContext(ctx, "INSERT INTO weather_queries(location, request_count, created_at, first_request_uuid) VALUES ($1, 1, $2, $3)", location, time.Now().UTC(), uuid.New())
 	if err != nil {
 		return err
@@ -115,8 +106,6 @@ func (r *repository) addWeather(ctx context.Context, location string) error {
 }
 
 func (r *repository) updateForFirstRequest(ctx context.Context, id int) error {
-	mutex.Lock()
-	defer mutex.Unlock()
 	_, err := r.db.ExecContext(ctx, "UPDATE weather_queries SET request_count = 1, first_request_uuid = $1 WHERE id = $2", uuid.New(), id)
 	if err != nil {
 		return err
@@ -126,8 +115,6 @@ func (r *repository) updateForFirstRequest(ctx context.Context, id int) error {
 }
 
 func (r *repository) increaseRequestCount(ctx context.Context, id int, requestCount uint8) error {
-	mutex.Lock()
-	defer mutex.Unlock()
 	requestCount++
 	_, err := r.db.ExecContext(ctx, "UPDATE weather_queries SET request_count = $1 WHERE id = $2", requestCount, id)
 	if err != nil {
