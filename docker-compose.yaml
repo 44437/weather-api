@@ -1,0 +1,23 @@
+version: '3.9'
+
+services:
+  db:
+    image: postgres:17.4
+    container_name: postgresql
+    restart: always
+    hostname: postgresql
+    shm_size: 128mb
+    environment:
+      POSTGRES_DB: weather
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+    ports:
+      - 5432:5432
+
+  pgadmin:
+    image: dpage/pgadmin4:9.1
+    environment:
+      PGADMIN_DEFAULT_EMAIL: "admin@db.com"
+      PGADMIN_DEFAULT_PASSWORD: "admin"
+    ports:
+      - "80:80"
