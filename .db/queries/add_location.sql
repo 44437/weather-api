@@ -1,1 +1,1 @@
-INSERT INTO weather_queries(location, request_count, created_at) VALUES ('Ankara', 2, '2025-03-13 15:00:00');
+INSERT INTO weather_queries(location, request_count, created_at, first_request_uuid) VALUES ('Ankara', 2, '2025-03-13 15:00:00', '11551b93-1091-4bba-9118-10b9186de243');
