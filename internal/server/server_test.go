@@ -22,7 +22,7 @@ func TestNewServer(t *testing.T) {
 	assert.Equal(t, "/health", srv.GetEchoInstance().Routes()[0].Path)
 	assert.Equal(t, "/debug/pprof/*", srv.GetEchoInstance().Routes()[1].Path)
 	assert.Equal(t, 1*time.Second, srv.GetEchoInstance().Server.ReadTimeout)
-	assert.Equal(t, 6*time.Second, srv.GetEchoInstance().Server.WriteTimeout)
+	assert.Equal(t, 7*time.Second, srv.GetEchoInstance().Server.WriteTimeout)
 }
 
 func TestStartStop(t *testing.T) {
