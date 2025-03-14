@@ -1,0 +1,1 @@
+INSERT INTO weather_queries(location, request_count, created_at) VALUES ('Ankara', 2, '2025-03-13 15:00:00');
