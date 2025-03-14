@@ -4,6 +4,8 @@ build:
 	go build -o weather-api cmd/weather-api/main.go
 docker-build:
 	docker build --build-arg APP_ENV=dev -t weather-api .
+run-tests:
+	go test -count=1 ./...
 lint:
 	gofmt -w .
 	goimports -w .
