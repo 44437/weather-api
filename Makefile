@@ -16,7 +16,7 @@ generate-mocks:
 	mockgen -source=internal/weather/service.go -destination=internal/weather/mock/service_mock.go -package=mocks
 	mockgen -source=internal/weather/repository.go -destination=internal/weather/mock/repository_mock.go -package=mocks
 ready-entire-system:
-	docker-compose up -d
+	docker-compose up -d --build
 	sleep 5
 	make shut-logging
 	make install-http-extension

@@ -3,10 +3,13 @@ version: '3.9'
 services:
   app:
     build: .
+    restart: always
     environment:
       APP_ENV: dev
     ports:
       - 8080:8080
+    depends_on:
+      - db
 
   db:
     image: postgres:17.4
