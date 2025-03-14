@@ -1,0 +1,1 @@
+CREATE UNIQUE INDEX location_index ON weather_queries(location);
