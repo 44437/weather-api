@@ -1,6 +1,13 @@
 version: '3.9'
 
 services:
+  app:
+    build: .
+    environment:
+      APP_ENV: dev
+    ports:
+      - 8080:8080
+
   db:
     image: postgres:17.4
     container_name: postgresql
