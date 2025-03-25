@@ -1,6 +1,10 @@
 package model
 
-import "time"
+import (
+	"time"
+
+	"github.com/google/uuid"
+)
 
 type DBWeather struct {
 	ID                  int       `json:"id"`
@@ -9,5 +13,5 @@ type DBWeather struct {
 	Service2Temperature *float32  `json:"service_2_temperature"`
 	RequestCount        uint8     `json:"request_count"`
 	CreatedAt           time.Time `json:"created_at"`
-	FirstRequestUUID    string    `json:"first_request_uuid"`
+	FirstRequestUUID    uuid.UUID `json:"first_request_uuid"`
 }

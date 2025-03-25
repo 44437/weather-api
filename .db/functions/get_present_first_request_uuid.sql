@@ -1,7 +1,7 @@
 CREATE OR REPLACE FUNCTION get_present_first_request_uuid(location_id INT)
-RETURNS TEXT AS $$
+RETURNS UUID AS $$
 DECLARE
-    uuid TEXT;
+    uuid UUID;
 BEGIN
     SELECT first_request_uuid INTO uuid
     FROM weather_queries
