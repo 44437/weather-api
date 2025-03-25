@@ -1,15 +1,17 @@
 CREATE OR REPLACE FUNCTION check_request_count()
 RETURNS TRIGGER AS $$
-DECLARE 
-    service_1_temp FLOAT;
-    service_2_temp FLOAT;
+DECLARE
+  query TEXT;
 BEGIN
-  IF NEW.request_count = 10 THEN
-    SELECT service_1_temperature, service_2_temperature INTO service_1_temp, service_2_temp FROM get_temperatures(NEW.location);
+  query := format(
+      'SELECT check_request_count_bg(%L, %L, %L)',
+      NEW.id,
+      NEW.location,
+      NEW.request_count
+  );
 
-    PERFORM notify_users(NEW.location, service_1_temp, service_2_temp);
-    PERFORM update_weather(NEW.id, service_1_temp, service_2_temp);
-  END IF;
+  PERFORM pg_background_launch(query);
+
   RETURN NEW;
 END;
 $$ LANGUAGE plpgsql;

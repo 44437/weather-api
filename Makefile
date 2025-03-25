@@ -19,12 +19,12 @@ ready-entire-system:
 	docker-compose up -d --build
 	sleep 5
 	make shut-logging
-	make install-http-extension
+	make install-extensions
 	make cp-files
 	make run-files
-install-http-extension:
-	docker cp .db/install-http-extension.sh $(DB_CONTAINER_NAME):/tmp/install-http-extension.sh
-	docker exec -i $(DB_CONTAINER_NAME) bash -c "chmod +x /tmp/install-http-extension.sh && /tmp/install-http-extension.sh"
+install-extensions:
+	docker cp .db/install-extensions.sh $(DB_CONTAINER_NAME):/tmp/install-extensions.sh
+	docker exec -i $(DB_CONTAINER_NAME) bash -c "chmod +x /tmp/install-extensions.sh && /tmp/install-extensions.sh"
 shut-logging:
 	docker cp .db/shut-logging.sh $(DB_CONTAINER_NAME):/tmp/shut-logging.sh
 	docker exec -i $(DB_CONTAINER_NAME) bash -c "chmod +x /tmp/shut-logging.sh && /tmp/shut-logging.sh"
@@ -35,6 +35,8 @@ cp-files:
 	docker cp .db/functions/update_weather.sql $(DB_CONTAINER_NAME):/update_weather.sql
 	docker cp .db/functions/get_temperatures.sql $(DB_CONTAINER_NAME):/get_temperatures.sql
 	docker cp .db/functions/get_present_first_request_uuid.sql $(DB_CONTAINER_NAME):/get_present_first_request_uuid.sql
+	docker cp .db/functions/check_first_request_bg.sql $(DB_CONTAINER_NAME):/check_first_request_bg.sql
+	docker cp .db/functions/check_request_count_bg.sql $(DB_CONTAINER_NAME):/check_request_count_bg.sql
 	docker cp .db/triggers/check_request_count.sql $(DB_CONTAINER_NAME):/check_request_count.sql
 	docker cp .db/triggers/check_first_request.sql $(DB_CONTAINER_NAME):/check_first_request.sql
 	docker cp .db/create_triggers.sql $(DB_CONTAINER_NAME):/create_triggers.sql
@@ -46,6 +48,8 @@ run-files:
 		-f update_weather.sql \
 		-f get_temperatures.sql \
 		-f get_present_first_request_uuid.sql \
+		-f check_first_request_bg.sql \
+		-f check_request_count_bg.sql \
 		-f check_request_count.sql \
 		-f check_first_request.sql \
 		-f create_triggers.sql \
