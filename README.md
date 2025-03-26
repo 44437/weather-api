@@ -5,7 +5,7 @@
 - Add the api url you'll take from https://weatherstack.com/ to .functions/weather-collector-function.go:90 
 
 **HOWEVER** \
-If you do not want to interfere with it, then do not do this because I have already published mine https://weather-collector-function-281137144038.europe-north1.run.app?location=<location\> 
+If you do not want to interfere with it, then do not do this because I have already published mine https://weather-collector-function.ercant.net?location=<location\> 
 
 ---
 

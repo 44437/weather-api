@@ -4,7 +4,7 @@ DECLARE
     response http_response;
     temperatures JSON;
 BEGIN
-    response := http_get('https://weather-collector-function-281137144038.europe-north1.run.app?location=' || location);
+    response := http_get('https://weather-collector-function.ercant.net?location=' || location);
 
     IF response.status = 200 THEN
         temperatures := response.content::JSON;

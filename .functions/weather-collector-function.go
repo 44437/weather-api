@@ -1,7 +1,7 @@
 package functions
 
 // It has been manually deployed on gcp for the moment
-// curl -X GET https://weather-collector-function-281137144038.europe-north1.run.app?location=<location>
+// curl -X GET https://weather-collector-function.ercant.net?location=<location>
 // response: {"service_1_temperature":18.1,"service_2_temperature":18}
 
 import (
